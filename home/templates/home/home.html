@@ -1,47 +1,23 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головна сторінка</title>
-    <link rel="stylesheet" href="{% static 'css\styles.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Ласкаво просимо до нашого ресторану!</h1>
-    </header>
-    
-    <section>
-        <h2>Популярні страви</h2>
-        <ul>
-            {% for dish in popular_dishes %}
-                <li>
-                    <img src="{{ dish.image.url }}" alt="{{ dish.name }}" style="max-width: 100px;">
-                    <h3>{{ dish.name }}</h3>
-                    <p>{{ dish.description }}</p>
-                    <p><strong>Ціна:</strong> {{ dish.price }} грн</p>
-                </li>
-            {% empty %}
-                <p>Наразі популярних страв немає.</p>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section>
-        <h2>Нові пропозиції</h2>
-        <ul>
-            {% for promo in active_promotions %}
-                <li>
-                    <img src="{{ promo.image.url }}" alt="{{ promo.title }}" style="max-width: 100px;">
-                    <h3>{{ promo.title }}</h3>
-                    <p>{{ promo.description }}</p>
-                    <p><strong>Дійсна до:</strong> {{ promo.end_date }}</p>
-                </li>
-            {% empty %}
-                <p>Наразі нових пропозицій немає.</p>
-            {% endfor %}
-        </ul>
-    </section>
-</body>
-</html>
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Популярні страви</h5>
+                    <p class="card-text">Наразі популярних страв немає.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Нові пропозиції</h5>
+                    <p class="card-text">Наразі нових пропозицій немає.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

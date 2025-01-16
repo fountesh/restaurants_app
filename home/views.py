@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from .models import Dish, Promotion
 
 # Create your views here.
@@ -15,3 +15,8 @@ class HomeView(TemplateView):
         context['active_promotions'] = Promotion.objects.filter(active=True)[:3]
         
         return context
+
+class DichCreateView(CreateView):
+    model = Dish
+    template_name = ''
+    success_url = 'home'
