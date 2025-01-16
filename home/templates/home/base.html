@@ -47,9 +47,24 @@
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/cart">Cart</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="{% url 'login' %}">Login</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="{% url 'profile' %}">{{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link px-3 bg-transparent border-0">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="{% url 'register' %}">Sign up</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

@@ -6,7 +6,16 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Популярні страви</h5>
+                    {% for dish in popular_dishes %}
+                    <li>
+                        <img src="{{ dish.image.url }}" alt="{{ dish.name }}" style="max-width: 100px;">
+                        <h3>{{ dish.name }}</h3>
+                        <p>{{ dish.description }}</p>
+                        <p><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                    </li>
+                    {% empty %}
                     <p class="card-text">Наразі популярних страв немає.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
