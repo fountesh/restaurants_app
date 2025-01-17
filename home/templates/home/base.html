@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Restaurant App{% endblock %}</title>
-    <!-- Оновлений Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -28,7 +27,6 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">Restaurant</a>
@@ -37,7 +35,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto"> <!-- Додано клас me-auto -->
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/">Home</a>
                     </li>
@@ -47,6 +45,8 @@
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/cart">Cart</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link px-3" href="{% url 'profile' %}">{{ user.username }}</a>
@@ -69,21 +69,17 @@
             </div>
         </div>
     </nav>
-
-    <!-- Main content -->
     <div class="container my-4">
         {% block content %}
         {% endblock %}
     </div>
 
-    <!-- Footer -->
     <footer class="bg-light py-3 mt-auto">
         <div class="container text-center">
             <p class="mb-0">&copy; 2025 Restaurant App. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Оновлений Bootstrap 5.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
