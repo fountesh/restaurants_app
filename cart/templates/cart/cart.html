@@ -1,0 +1,185 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Ваш кошик</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Страва</th>
+                <th>Кількість</th>
+                <th>Ціна</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.cart_items.all %}
+            <tr class="cart-item" data-dish-id="{{ item.dish.id }}">
+                <td>
+                    <img src="{{ item.dish.image.url }}" alt="{{ item.dish.name }}" style="max-width: 50px;">
+                    {{ item.dish.name }}
+                </td>
+                <td>
+                    <div class="quantity-control">
+                        <button class="btn btn-outline-secondary quantity-btn decrease">-</button>
+                        <input type="number" class="quantity-input" value="{{ item.quantity }}" min="0" readonly>
+                        <button class="btn btn-outline-secondary quantity-btn increase">+</button>
+                    </div>
+                </td>
+                <td>{{ item.dish.price }} грн</td>
+                <td>
+                    <!-- Кнопка видалення буде додаватися/видалятися через JavaScript -->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Загальна вартість: <span id="total-price">{{ total_price }}</span> грн</h3>
+</div>
+
+<style>
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 150px;
+}
+
+.quantity-input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.quantity-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.quantity-btn:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Прибираємо стрілки з input type="number" */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.quantity-input[type=number] {
+    -moz-appearance: textfield;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const quantityControls = document.querySelectorAll('.quantity-control');
+    
+    quantityControls.forEach(control => {
+        const decreaseBtn = control.querySelector('.decrease');
+        const increaseBtn = control.querySelector('.increase');
+        const input = control.querySelector('.quantity-input');
+        const cartItem = control.closest('.cart-item');
+        const dishId = cartItem.dataset.dishId;
+
+        // Обробник для кнопки зменшення
+        decreaseBtn.addEventListener('click', async () => {
+            let newValue = parseInt(input.value) - 1;
+            if (newValue >= 0) {
+                input.value = newValue;
+                if (newValue === 0) {
+                    await removeFromCart(dishId);
+                    cartItem.remove();
+                } else {
+                    await updateCartItem(dishId, newValue);
+                }
+                await updateTotalPrice();
+            }
+        });
+
+        // Обробник для кнопки збільшення
+        increaseBtn.addEventListener('click', async () => {
+            let newValue = parseInt(input.value) + 1;
+            input.value = newValue;
+            await updateCartItem(dishId, newValue);
+            await updateTotalPrice();
+        });
+
+        // Обробник для прямого введення значення (якщо потрібно)
+        input.addEventListener('change', async function() {
+            const quantity = parseInt(this.value);
+            if (quantity <= 0) {
+                await removeFromCart(dishId);
+                cartItem.remove();
+            } else {
+                await updateCartItem(dishId, quantity);
+            }
+            await updateTotalPrice();
+        });
+    });
+    
+    async function updateCartItem(dishId, quantity) {
+        try {
+            const response = await fetch(`{% url 'update_cart_item' 0 %}`.replace('0', dishId), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `quantity=${quantity}`
+            });
+            
+            if (!response.ok) {
+                throw new Error('Помилка оновлення кошика');
+            }
+            const data = await response.json();
+            document.getElementById('total-price').textContent = data.total_price;
+        } catch (error) {
+            console.error('Помилка:', error);
+        }
+    }
+    
+    async function removeFromCart(dishId) {
+        try {
+            const response = await fetch(`{% url 'remove_from_cart' 0 %}`.replace('0', dishId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Помилка видалення з кошика');
+            }
+            const data = await response.json();
+            document.getElementById('total-price').textContent = data.total_price;
+        } catch (error) {
+            console.error('Помилка:', error);
+        }
+    }
+    
+    // Функція для отримання CSRF токену
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}
