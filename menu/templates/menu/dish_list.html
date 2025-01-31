@@ -12,6 +12,10 @@
                         <h5 class="card-title">{{ dish.name }}</h5>
                         <p class="card-text">{{ dish.description|truncatewords:15 }}</p>
                         <p class="card-text"><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                        <form method="post" action="{% url 'add_to_cart' dish.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Замовити</button>
+                        </form>
                         <a href="{% url 'menu:dish_detail' dish.id %}" class="btn btn-primary">Детальніше</a>
                     </div>
                 </div>
