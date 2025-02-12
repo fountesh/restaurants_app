@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework import generics
+from .serializers import PromotionSerializer
 from django.views.generic import TemplateView, CreateView
 from .models import Promotion
 from menu.models import Dish
@@ -16,3 +18,13 @@ class HomeView(TemplateView):
         context['active_promotions'] = Promotion.objects.filter(active=True)[:3]
         
         return context
+
+
+
+class PromotionListAPI(generics.ListCreateAPIView ):
+    queryset = Promotion.objects.all()
+    serializer_class = PromotionSerializer
+
+class PromotionDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Promotion.objects.all()
+    serializer_class = PromotionSerializer
