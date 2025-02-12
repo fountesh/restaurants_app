@@ -1,0 +1,46 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">Замовлення №{{ order.id }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p class="mb-2"><strong>Дата:</strong> {{ order.created_at }}</p>
+                    <p class="mb-2"><strong>Статус:</strong> <span class="badge bg-primary">{{ order.get_status_display }}</span></p>
+                    <p class="mb-2"><strong>Телефон:</strong> {{ order.phone_number }}</p>
+                    <p class="mb-2"><strong>Адреса:</strong> {{ order.address }}</p>
+                    <p class="mb-2"><strong>Спосіб оплати:</strong> {{ order.get_payment_method_display }}</p>
+                </div>
+            </div>
+
+            <h3 class="mb-3">Страви в замовленні</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Назва страви</th>
+                            <th>Кількість</th>
+                            <th>Ціна</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.order_items.all %}
+                        <tr>
+                            <td>{{ item.dish.name }}</td>
+                            <td>{{ item.quantity }} шт.</td>
+                            <td>{{ item.dish.price }} грн</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-end mt-4">
+                <h3>Загальна вартість: <span class="text-primary">{{ order.total_price }} грн</span></h3>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
