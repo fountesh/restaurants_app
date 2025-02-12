@@ -2,6 +2,7 @@
 {% block content %}
 <div class="container">
     <h2>Ваш кошик</h2>
+    {% if cart.cart_items.all %}
     <table class="table">
         <thead>
             <tr>
@@ -25,15 +26,21 @@
                     </div>
                 </td>
                 <td>{{ item.dish.price }} грн</td>
-                <td>
-                    <!-- Кнопка видалення буде додаватися/видалятися через JavaScript -->
-                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <h3>Загальна вартість: <span id="total-price">{{ total_price }}</span> грн</h3>
+
+    <!-- Кнопка оформлення замовлення -->
+    <form action="{% url 'order_create' %}" method="get">
+        <button type="submit" class="btn btn-success mt-3">Оформити замовлення</button>
+    </form>
+    {% else %}
+    <p>Ваш кошик порожній.</p>
+    {% endif %}
 </div>
+    
 
 <style>
 .quantity-control {
