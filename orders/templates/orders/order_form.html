@@ -1,0 +1,22 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Оформлення замовлення</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_phone_number">Телефон</label>
+            {{ form.phone_number }}
+        </div>
+        <div class="form-group">
+            <label for="id_address">Адреса</label>
+            {{ form.address }}
+        </div>
+        <div class="form-group">
+            <label>Спосіб оплати:</label>
+            {{ form.payment_method }}
+        </div>
+        <button type="submit" class="btn btn-success">Оформити замовлення</button>
+    </form>
+</div>
+{% endblock %}

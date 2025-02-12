@@ -1,0 +1,32 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Ваші замовлення</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Сума</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>{{ order.total_price }} грн</td>
+                <td><a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Деталі</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">У вас поки немає замовлень.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
