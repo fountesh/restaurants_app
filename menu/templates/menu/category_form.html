@@ -1,0 +1,31 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Створення нової категорії</h1>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}  <!-- Рендерить поле без додаткових фільтрів -->
+                    {% if field.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ field.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary">Створити категорію</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

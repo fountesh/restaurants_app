@@ -1,0 +1,54 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Популярні страви -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Популярні страви</h5>
+                    <ul class="list-unstyled">
+                        {% for dish in popular_dishes %}
+                        <li class="mb-3 d-flex align-items-start">
+                            <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="img-thumbnail me-3" style="max-width: 100px; height: auto;">
+                            <div>
+                                <h6 class="fw-bold">{{ dish.name }}</h6>
+                                <p class="mb-1 text-muted">{{ dish.description|truncatewords:15 }}</p>
+                                <p class="mb-0"><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <p class="text-muted">Наразі популярних страв немає.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нові пропозиції -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Нові пропозиції</h5>
+                    <ul class="list-unstyled">
+                        {% for dish in new_dishes %}
+                        <li class="mb-3 d-flex align-items-start">
+                            <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="img-thumbnail me-3" style="max-width: 100px; height: auto;">
+                            <div>
+                                <h6 class="fw-bold">{{ dish.name }}</h6>
+                                <p class="mb-1 text-muted">{{ dish.description|truncatewords:15 }}</p>
+                                <p class="mb-0"><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <p class="text-muted">Наразі нових пропозицій немає.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
