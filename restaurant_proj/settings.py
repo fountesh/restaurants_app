@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-@=n1n7@orf%=(%9k3^vmt!d@sh2@^3&^ppnrbl6_oqdev0uiv^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.onrender.com', '127.0.0.1']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'cart',
     'orders',
     'order_history',
+    'reviews',
 ]
 
 MIDDLEWARE = [
@@ -141,4 +142,3 @@ LOGOUT_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-ALLOWED_HOSTS = ['.onrender.com']
