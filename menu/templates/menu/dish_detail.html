@@ -54,5 +54,31 @@
             </div>
         </div>
     </div>
+
+    <!-- Відгуки -->
+    <div class="mt-4">
+        <h2>Відгуки</h2>
+        
+        <!-- Кнопка для додавання нового відгуку -->
+        <a href="{% url 'add_review' dish.id %}" class="btn btn-primary mb-3">
+            <i class="bi bi-pencil-square"></i> Додати відгук
+        </a>
+
+        <!-- Список відгуків -->
+        {% if dish.reviews.all %}
+            {% for review in dish.reviews.all %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <strong>{{ review.user.username }}</strong>  
+                    <span class="badge bg-warning text-dark">{{ review.rating }}/5</span>
+                    <p class="mt-2">{{ review.comment }}</p>
+                    <small class="text-muted">{{ review.created_at|date:"d.m.Y H:i" }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Ще немає відгуків. Будьте першим!</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
