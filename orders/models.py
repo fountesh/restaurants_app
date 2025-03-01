@@ -26,8 +26,8 @@ class Order(models.Model):
         related_name="orders",
         verbose_name="Користувач"
     )
-    phone_number = models.ForeignKey(CustomUser, related_name="Телефон", on_delete=models.DO_NOTHING)
-    address = models.ForeignKey(CustomUser, related_name="Адреса_доставки", on_delete=models.DO_NOTHING)
+    phone_number = models.CharField(max_length=10, verbose_name="Телефон")
+    address = models.TextField(verbose_name="Адреса доставки")
     payment_method = models.CharField(
         max_length=10,
         choices=PAYMENT_METHODS,
