@@ -7,7 +7,11 @@
         {% for dish in dishes %}
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm">
-                    <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% if dish.image %}
+                        <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="img-thumbnail me-3" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="/static/images/default-dish.jpg" alt="Зображення відсутнє" class="img-thumbnail me-3" style="height: 200px; object-fit: cover;">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ dish.name }}</h5>
                         <p class="card-text">{{ dish.description|truncatewords:15 }}</p>
@@ -22,7 +26,6 @@
             </div>
         {% endfor %}
     </div>
-    </ul>
 
     {% if user.is_staff %}
     <div class="mt-4">
