@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from menu.models import Dish
+from users.models import CustomUser
 
 # Create your models here.
 
