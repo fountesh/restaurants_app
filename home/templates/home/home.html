@@ -3,52 +3,71 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <!-- Популярні страви -->
+        <!-- Популярні страви (Карусель) -->
         <div class="col-md-6 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Популярні страви</h5>
-                    <ul class="list-unstyled">
-                        {% for dish in popular_dishes %}
-                        <li class="mb-3 d-flex align-items-start">
-                            <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="img-thumbnail me-3" style="max-width: 100px; height: auto;">
-                            <div>
-                                <h6 class="fw-bold">{{ dish.name }}</h6>
-                                <p class="mb-1 text-muted">{{ dish.description|truncatewords:15 }}</p>
-                                <p class="mb-0"><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                    {% if popular_dishes %}
+                    <div id="popularDishesCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for dish in popular_dishes %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ dish.image.url }}" class="d-block w-100 rounded" alt="{{ dish.name }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h6 class="fw-bold">{{ dish.name }}</h6>
+                                    <p class="text-muted">{{ dish.description|truncatewords:15 }}</p>
+                                    <p><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                                </div>
                             </div>
-                        </li>
-                        {% empty %}
-                        <p class="text-muted">Наразі популярних страв немає.</p>
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#popularDishesCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#popularDishesCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">Наразі популярних страв немає.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
 
-        <!-- Нові пропозиції -->
+        <!-- Нові пропозиції (Карусель) -->
         <div class="col-md-6 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Нові пропозиції</h5>
-                    <ul class="list-unstyled">
-                        {% for dish in new_dishes %}
-                        <li class="mb-3 d-flex align-items-start">
-                            <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="img-thumbnail me-3" style="max-width: 100px; height: auto;">
-                            <div>
-                                <h6 class="fw-bold">{{ dish.name }}</h6>
-                                <p class="mb-1 text-muted">{{ dish.description|truncatewords:15 }}</p>
-                                <p class="mb-0"><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                    {% if new_dishes %}
+                    <div id="newDishesCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for dish in new_dishes %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ dish.image.url }}" class="d-block w-100 rounded" alt="{{ dish.name }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h6 class="fw-bold">{{ dish.name }}</h6>
+                                    <p class="text-muted">{{ dish.description|truncatewords:15 }}</p>
+                                    <p><strong>Ціна:</strong> {{ dish.price }} грн</p>
+                                </div>
                             </div>
-                        </li>
-                        {% empty %}
-                        <p class="text-muted">Наразі нових пропозицій немає.</p>
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#newDishesCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#newDishesCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">Наразі нових пропозицій немає.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
